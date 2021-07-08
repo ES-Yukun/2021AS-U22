@@ -11,6 +11,7 @@
     <script>
         enchant(); //おまじない
         window.onload = function () {
+            console.log(document.body.scrollWidth , window.innerHeight);
             //陽性、陰性の数
             var negative_count = 300; //陰性　
             var positive_count = 10; //陽性
@@ -86,7 +87,7 @@
                             var hits = this.intersect(MakeImage);
 
                             // 衝突相手が自分の番号では無く、自分がnegativeで相手がpositiveなら
-                            if (hits.length > 0 && hits[0].myno != this.myno && hits[1].status == "positive" && hits[0].status == "negative") {
+                            if (hits[0].myno != this.myno && hits[1].status == "positive" && hits[0].status == "negative") {
                                 //デバッグ用
                                 console.log("衝突");
                                 //最終的な感染力の計算(％)
@@ -126,8 +127,8 @@
                 });
 
                 var angle = () => { return Math.floor(Math.random() * (360 - 0 + 1) + 0); }
-                var xRandom = () => { return Math.floor(Math.random() * (width - 0 + 10) + 10); }
-                var yRandom = function () { return Math.floor(Math.random() * (height - 0 + 200) + 200); }
+                var xRandom = () => { return Math.floor(Math.random() * (width - 0 + 1) + 0); }
+                var yRandom = () => { return Math.floor(Math.random() * (height - 0 + 1) + 0); }
 
                 // negativeの生成
                 for (var i = 0; i < negative_count; i++) {
