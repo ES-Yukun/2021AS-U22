@@ -95,7 +95,6 @@
                             // 衝突相手が自分の番号では無く、自分がnegativeで相手がpositiveなら
                             if (hits[0].myno != this.myno && hits[1].status == "positive" && hits[0].status == "negative") {
                                 //デバッグ用
-                                console.log("衝突");
                                 //最終的な感染力の計算(％)
                                 var random = Math.floor(Math.random() * (99 - 0 + 1) + 0) * 0.01;//0~99ランダムピック
                                 var infection_per = infectivity * immunity;
@@ -114,19 +113,16 @@
 
                             this.ontouchend = function () {
                                 //タッチされたら
-                                console.log("いたい");
                                 this.x = 0;
                                 this.y = 0;
                             };
 
                             if (game.input.q) {
                                 immunity = 0.1
-                                console.log(immunity)
                             };
 
                             if (game.input.w) {
                                 infectivity = infectivity * 1.95
-                                console.log(infectivity)
                             };
                         });
                     },
@@ -161,7 +157,6 @@
                 // シーンの定期処理
                 game.rootScene.addEventListener("enterframe", function () {
                     // 陰性、陽性の数
-                    console.log("positive:" + positive_count + " negative:" + negative_count);
                     // 陰性が0になったら
                     if (negative_count == 0) {
                         game.rootScene.backgroundColor = "#ffa49d"; //背景色
