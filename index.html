@@ -15,19 +15,56 @@
 
 <body>
     <div id="obj">
-        
+        <p id="graph_n" style="height: 60px; background-color: chartreuse;">　</p>
+        <p id="graph_p" style="height: 60px; background-color: blue;">　</p>
     </div>
     <script>
         enchant(); //おまじない
+
+        class Graph {
+            constructor(x, y) {
+                this.x = x
+                this.y = y
+            }
+
+            state(elementid, limit, value) {
+                this.elementid = elementid
+                this.limit = limit
+                this.value = value
+                this._changeGraphData()
+            }
+
+            _percent = (limit = this.limit, value = this.value) => value / limit
+            _changeGraphData(
+                x = this.x,
+                y = this.y,
+                element = document.getElementById(this.elementid),
+                percent = this._percent(),
+                width = document.body.clientWidth
+            ) {
+                element.style.width = String(width * percent) + "%";
+                element.style.marginTop = String(x)
+                element.style.marginLeft = String(y)
+            }
+        }
+
         window.onload = function () {
             //陽性、陰性の数
             var negative_count = 300; //陰性　
             var positive_count = 10; //陽性
 
+            /*Graph*/
+            var negative_graph = new Graph(0, 0)
+            negative_graph.state("graph_n", negative_count + positive_count, negative_count)
+            var positive_graph = new Graph(60, 0)
+            positive_graph.state("graph_p", negative_count + positive_count, positive_count)
+            /*End Graph*/
+
             //ゲームの幅と高さ
             var width = document.body.scrollWidth;
             var height = window.innerHeight;
             var game = new Game(width, height); //Gameオブジェクトを生成
+
 
             game.preload("icon0.png"); //画像のロード指定
             game.rootScene.backgroundColor = "#f3f3f3"; //背景色
@@ -164,11 +201,18 @@
                 game.rootScene.addEventListener("enterframe", function () {
                     // 陰性、陽性の数
                     console.log("positive:" + positive_count + " negative:" + negative_count);
+
+                    /*Graph*/
+                    negative_graph.state("graph_n", negative_count + positive_count, negative_count)
+                    positive_graph.state("graph_p", negative_count + positive_count, positive_count)
+                    /*End Graph*/
+
                     // 陰性が0になったら
                     if (negative_count == 0) {
                         game.rootScene.backgroundColor = "#ffa49d"; //背景色
                         game.stop(); //ゲームを止める
                     }
+
                 });
             };
             game.start(); //ゲーム開始
@@ -177,14 +221,16 @@
     </script>
 </body>
 <style>
-    *{
+    * {
         margin: 0;
         padding: 0;
     }
-    body{
+
+    body {
         background-color: black;
     }
-    #obj{
+
+    #obj {
         position: fixed;
     }
 </style>
