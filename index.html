@@ -20,13 +20,11 @@
     </div>
     <script>
         enchant(); //おまじない
-
         class Graph {
             constructor(x, y) {
                 this.x = x
                 this.y = y
             }
-
             state(elementid, limit, value) {
                 this.elementid = elementid
                 this.limit = limit
@@ -46,7 +44,6 @@
                 element.style.marginLeft = String(y)
             }
         }
-
         window.onload = function () {
             //陽性、陰性の数
             var negative_count = 300; //陰性　
