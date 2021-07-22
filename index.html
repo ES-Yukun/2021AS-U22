@@ -53,7 +53,6 @@
             var positive_count = 10; //陽性
 
             /*Graph*///
-            document.getElementById("obj").style.width = document.body.scrollWidth
             var negative_graph = new Graph(parseFloat(document.getElementById("graph_n").style.height), 0); negative_graph.state("graph_n", negative_count + positive_count, negative_count);
             var positive_graph = new Graph(parseFloat(document.getElementById("graph_p").style.height), 0); positive_graph.state("graph_p", negative_count + positive_count, positive_count);
             /*End Graph*///
@@ -83,8 +82,6 @@
                             //negative
                             this.frame = 10; //画像の中のフレームの数字
                         } else {
-                            //positive
-                            this.frame = 11; //画像の中のフレームの数字
                         }
                         this.status = status; // ステータス
 
