@@ -55,9 +55,9 @@
 
             /*Graph*/
             document.getElementById("obj").style.width = document.body.scrollWidth
-            var negative_graph = new Graph(0, 0)
+            var negative_graph = new Graph(parseFloat(document.getElementById("graph_n").style.height), 0)
             negative_graph.state("graph_n", negative_count + positive_count, negative_count)
-            var positive_graph = new Graph(60, 0)
+            var positive_graph = new Graph(parseFloat(document.getElementById("graph_p").style.height), 0)
             positive_graph.state("graph_p", negative_count + positive_count, positive_count)
             /*End Graph*/
 
