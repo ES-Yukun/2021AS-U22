@@ -9,46 +9,188 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="2021AS">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="./jmap.js"></script>
     <script src="enchant.min.js"></script>
     <script src="Graph.js"></script>
     <title>AS2021</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#enchant-stage').hide(); //enchant.js部分を隠す
+            $("#map").hide(); //mapを隠す
+
+            $('#inner1').on('click', function () {
+                $("#outer1").hide(); //コンテンツを隠す
+                $("#map").show(); //mapを表示
+            });
+
+            $("#jmap").jmap({
+                width: "100%",
+                height: "450px",
+                prefectureLineHoverColor: "#fff",
+                fontSize: "0.8rem",
+                fontColor: "#000",
+                areas: [
+                    { code: 1, name: "北海道", color: "#7f7eda", hoverColor: "#b3b2ee" },
+                    { code: 2, name: "青森", color: "#759ef4", hoverColor: "#98b9ff" },
+                    { code: 3, name: "岩手", color: "#759ef4", hoverColor: "#98b9ff" },
+                    { code: 4, name: "宮城", color: "#759ef4", hoverColor: "#98b9ff" },
+                    { code: 5, name: "秋田", color: "#759ef4", hoverColor: "#98b9ff" },
+                    { code: 6, name: "山形", color: "#759ef4", hoverColor: "#98b9ff" },
+                    { code: 7, name: "福島", color: "#759ef4", hoverColor: "#98b9ff" },
+                    { code: 8, name: "茨城", color: "#7ecfea", hoverColor: "#b7e5f4" },
+                    { code: 9, name: "栃木", color: "#7ecfea", hoverColor: "#b7e5f4" },
+                    { code: 10, name: "群馬", color: "#7ecfea", hoverColor: "#b7e5f4" },
+                    { code: 11, name: "埼玉", color: "#7ecfea", hoverColor: "#b7e5f4" },
+                    { code: 12, name: "千葉", color: "#7ecfea", hoverColor: "#b7e5f4" },
+                    { code: 13, name: "東京", color: "#7ecfea", hoverColor: "#b7e5f4" },
+                    { code: 14, name: "神奈川", color: "#7ecfea", hoverColor: "#b7e5f4" },
+                    { code: 15, name: "新潟", color: "#7cdc92", hoverColor: "#aceebb" },
+                    { code: 16, name: "富山", color: "#7cdc92", hoverColor: "#aceebb" },
+                    { code: 17, name: "石川", color: "#7cdc92", hoverColor: "#aceebb" },
+                    { code: 18, name: "福井", color: "#7cdc92", hoverColor: "#aceebb" },
+                    { code: 19, name: "山梨", color: "#7cdc92", hoverColor: "#aceebb" },
+                    { code: 20, name: "長野", color: "#7cdc92", hoverColor: "#aceebb" },
+                    { code: 21, name: "岐阜", color: "#7cdc92", hoverColor: "#aceebb" },
+                    { code: 22, name: "静岡", color: "#7cdc92", hoverColor: "#aceebb" },
+                    { code: 23, name: "愛知", color: "#7cdc92", hoverColor: "#aceebb" },
+                    { code: 24, name: "三重", color: "#ffe966", hoverColor: "#fff19c" },
+                    { code: 25, name: "滋賀", color: "#ffe966", hoverColor: "#fff19c" },
+                    { code: 26, name: "京都", color: "#ffe966", hoverColor: "#fff19c" },
+                    { code: 27, name: "大阪", color: "#ffe966", hoverColor: "#fff19c" },
+                    { code: 28, name: "兵庫", color: "#ffe966", hoverColor: "#fff19c" },
+                    { code: 29, name: "奈良", color: "#ffe966", hoverColor: "#fff19c" },
+                    { code: 30, name: "和歌山", color: "#ffe966", hoverColor: "#fff19c" },
+                    { code: 31, name: "鳥取", color: "#ffcc66", hoverColor: "#ffe0a3" },
+                    { code: 32, name: "島根", color: "#ffcc66", hoverColor: "#ffe0a3" },
+                    { code: 33, name: "岡山", color: "#ffcc66", hoverColor: "#ffe0a3" },
+                    { code: 34, name: "広島", color: "#ffcc66", hoverColor: "#ffe0a3" },
+                    { code: 35, name: "山口", color: "#ffcc66", hoverColor: "#ffe0a3" },
+                    { code: 36, name: "徳島", color: "#fb9466", hoverColor: "#ffbb9c" },
+                    { code: 37, name: "香川", color: "#fb9466", hoverColor: "#ffbb9c" },
+                    { code: 38, name: "愛媛", color: "#fb9466", hoverColor: "#ffbb9c" },
+                    { code: 39, name: "高知", color: "#fb9466", hoverColor: "#ffbb9c" },
+                    { code: 40, name: "福岡", color: "#ff9999", hoverColor: "#ffbdbd" },
+                    { code: 41, name: "佐賀", color: "#ff9999", hoverColor: "#ffbdbd" },
+                    { code: 42, name: "長崎", color: "#ff9999", hoverColor: "#ffbdbd" },
+                    { code: 43, name: "熊本", color: "#ff9999", hoverColor: "#ffbdbd" },
+                    { code: 44, name: "大分", color: "#ff9999", hoverColor: "#ffbdbd" },
+                    { code: 45, name: "宮崎", color: "#ff9999", hoverColor: "#ffbdbd" },
+                    { code: 46, name: "鹿児島", color: "#ff9999", hoverColor: "#ffbdbd" },
+                    { code: 47, name: "沖縄", color: "#eb98ff", hoverColor: "#f5c9ff" },
+                ],
+                onSelect: function (e, data) {
+                    console.log(data);
+                    console.log(data.alphabet); //アルファベットを表示
+                    $("#map").hide(); //mapを隠す
+                    $('#enchant-stage').show(); //enchant.js部分を表示
+                    start_game();
+                },
+            });
+        });
+    </script>
+    <style>
+        #jmap {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
 </head>
 
 <body>
+    <div id="outer1">
+        <p>最初の画面だよ</p>
+        <button id="inner1">押してね</button>
+    </div>
+
+    <div id="map">
+        <p>県を選んでください</p>
+        <div id="jmap"></div>
+    </div>
+
     <div id="obj" style="position: fixed;">
         <p id="graph_p" style="height: 60px; background-color: blue;">　</p>
         <p id="graph_n" style="height: 60px; background-color: chartreuse;">　</p>
     </div>
+
     <script>
+        //ゲームの開始
+        function start_game() {
+            game.start();
+        }
+
         enchant(); //おまじない
 
-        window.onload = function () {
-            //陽性、陰性の数
-            var negative_count = 300; //陰性　
-            var positive_count = 10; //陽性
-
-            /*Graph*///
-            var negative_graph = null;
-            var positive_graph = null;
-            (_newGraph = () => {
-                negative_graph = new Graph(parseFloat(document.getElementById("graph_n").style.height), 0); negative_graph.state("graph_n", negative_count + positive_count, negative_count);
-                positive_graph = new Graph(parseFloat(document.getElementById("graph_p").style.height), 0); positive_graph.state("graph_p", negative_count + positive_count, positive_count);
-            })();
-            /*End Graph*///
-
-            //ゲームの幅と高さ
-            var width = document.body.scrollWidth;
-            var height = window.innerHeight;
-            var game = new Game(width, height); //Gameオブジェクトを生成
 
 
-            game.preload("icon0.png"); //画像のロード指定
-            game.rootScene.backgroundColor = "#f3f3f3"; //背景色
+        //ゲームの幅と高さ
+        var width = document.body.scrollWidth;
+        var height = window.innerHeight;
+        var game = new Game(width, height); //Gameオブジェクトを生成
 
-            game.onload = function () {
-                //キーバインド
-                game.keybind('Q'.charCodeAt(0), 'q');
-                game.keybind('W'.charCodeAt(0), 'w');
+        game.preload("icon0.png", "start.png"); //画像のロード指定
+        game.rootScene.backgroundColor = "#f3f3f3"; //背景色
+
+        document.getElementById("graph_p").style.display = "none";
+        document.getElementById("graph_n").style.display = "none";
+
+        //陽性、陰性の数
+        var negative_count = 300; //陰性　
+        var positive_count = 10; //陽性
+
+        game.onload = function () {
+            //キーバインド
+            game.keybind('Q'.charCodeAt(0), 'q');
+            game.keybind('W'.charCodeAt(0), 'w');
+
+            var createTitleScene = function () {
+                var scene = new Scene(); // 新しいシーンを作る
+
+                // 新しいラベルを作る
+                var label = new Label("スタート画像のタッチでゲームシーンへ");
+                scene.addChild(label); // シーンにラベルに追加
+                scene.backgroundColor = "rgba(255, 230, 0, 1)"; // シーンの背景色を設定
+
+                // スタート画像
+                var Start = Class.create(Sprite, {
+                    initialize: function () { //ここに初期化処理
+                        Sprite.call(this, 236, 48);
+                        this.x = 35;
+                        this.y = 105;
+                        this.image = game.assets["start.png"];
+                        scene.addChild(this); //スプライトをシーンに登録
+                    },
+                    onenterframe: function () { //毎フレームごとの処理
+                        this.ontouchend = function () {//タッチされたら
+                            game.replaceScene(createGameScene());
+                        }
+                    }
+                });
+
+                // スタート画像呼び出し
+                var start = new Start();
+
+                // この関数内で作ったシーンを呼び出し元に返します(return)
+                return scene;
+            };
+
+            var createGameScene = function () {
+                var scene = new Scene(); // 新しいシーンを作る
+
+                negative_count = 300; //陰性　
+                positive_count = 10; //陽性
+
+                document.getElementById("graph_p").style.display = "block";
+                document.getElementById("graph_n").style.display = "block";
+
+                /*Graph*///
+                var negative_graph = null;
+                var positive_graph = null;
+                (_newGraph = () => {
+                    negative_graph = new Graph(parseFloat(document.getElementById("graph_n").style.height), 0); negative_graph.state("graph_n", negative_count + positive_count, negative_count);
+                    positive_graph = new Graph(parseFloat(document.getElementById("graph_p").style.height), 0); positive_graph.state("graph_p", negative_count + positive_count, positive_count);
+                })();
+                /*End Graph*///
 
                 //画像生成クラス
                 MakeImage = Class.create(Sprite, {
@@ -159,7 +301,7 @@
                     // MakeImage(x, y, w, angle, myno, status)
                     var image = new MakeImage(xRandom(), yRandom(), 16, angle(), i, "negative");
                     // シーンに登録
-                    game.rootScene.addChild(image);
+                    scene.addChild(image);
                 }
 
                 // positiveの生成
@@ -170,13 +312,14 @@
                     // MakeImage(x, y, w, angle, myno, status)
                     var image = new MakeImage(xRandom(), yRandom(), 16, angle(), i, "positive");
                     // シーンに登録
-                    game.rootScene.addChild(image);
+                    scene.addChild(image);
                 }
 
-                // シーンの定期処理
-                game.rootScene.addEventListener("enterframe", function () {
+
+                scene.addEventListener('enterframe', function () {
+
                     // 陰性、陽性の数
-                    console.log("positive:" + positive_count + " negative:" + negative_count);
+                    // console.log("positive:" + positive_count + " negative:" + negative_count);
 
                     /*change Graph*///
                     (_stateGraph = () => {
@@ -187,13 +330,49 @@
 
                     // 陰性が0になったら
                     if (negative_count == 0) {
-                        game.rootScene.backgroundColor = "#ffa49d"; //背景色
-                        game.stop(); //ゲームを止める
+                        scene.backgroundColor = "#ffa49d"; //背景色
+                        game.replaceScene(GameoverScene());
                     }
 
                 });
+
+                // この関数内で作ったシーンを呼び出し元に返します(return)
+                return scene;
             };
-            game.start(); //ゲーム開始
+
+            var GameoverScene = function () {
+                var scene = new Scene(); // 新しいシーンを作る
+                scene.backgroundColor = "rgba(0, 0, 255, 0.5)"; // シーンの背景色を設定
+
+                document.getElementById("graph_p").style.display = "none";
+                document.getElementById("graph_n").style.display = "none";
+
+                // 新しいラベル(文字)を作る
+                var label = new Label("ゲームオーバー");
+                label.x = 20; // 横位置調整
+                label.y = 90; // 縦位置調整
+                label.font = "40px Ranchers";  //大きさとfont指定
+                scene.addChild(label); // シーンにラベルに追加
+
+                scene.addEventListener(Event.TOUCH_START, function (e) {
+                    //現在表示しているシーンを外し、直前のシーンを表示します
+                    // game.replaceScene(createTitleScene());
+                    stop_game();
+                });
+                return scene;
+            };
+
+            game.replaceScene(createTitleScene());
+
+            function stop_game() {
+                //シーンから削除
+                // game.rootScene.removeChild(circle1);
+                // game.rootScene.removeChild(rectangle1);
+
+                game.stop();
+                $("#map").show(); //mapを出す
+                $('#enchant-stage').hide(); //enchant.js部分を隠す
+            }
         };
     </script>
 </body>
@@ -204,7 +383,7 @@
     }
 
     body {
-        background-color: black;
+        background-color: rgb(255, 255, 255);
     }
 </style>
 
