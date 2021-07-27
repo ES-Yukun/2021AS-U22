@@ -142,6 +142,8 @@
             //キーバインド
             game.keybind('Q'.charCodeAt(0), 'q');
             game.keybind('W'.charCodeAt(0), 'w');
+            game.keybind('R'.charCodeAt(0), 'r');
+            game.keybind(09, 'tab');
 
             var createTitleScene = function () {
                 var scene = new Scene(); // 新しいシーンを作る
@@ -170,6 +172,13 @@
                 // スタート画像呼び出し
                 var start = new Start();
 
+                scene.addEventListener('enterframe', function () {
+                    //　県選択に戻る
+                    if (game.input.r) {
+                        stop_game();
+                    }
+                });
+
                 // この関数内で作ったシーンを呼び出し元に返します(return)
                 return scene;
             };
@@ -191,6 +200,23 @@
                     positive_graph = new Graph(parseFloat(document.getElementById("graph_p").style.height), 0); positive_graph.state("graph_p", negative_count + positive_count, positive_count);
                 })();
                 /*End Graph*///
+
+                // 新しいラベル(文字)を作る
+                var label = new Label("tabキーでポーズシーンへ");
+                label.y = 120; // 縦位置調整
+                scene.addChild(label); // シーンにラベルに追加
+
+                var label = new Label("Qキーで抵抗力上昇");
+                label.y = 140; // 縦位置調整
+                scene.addChild(label); // シーンにラベルに追加
+
+                var label = new Label("Wキーで感染力増加");
+                label.y = 160; // 縦位置調整
+                scene.addChild(label); // シーンにラベルに追加
+
+                var label = new Label("Rキーで県選択画面へ");
+                label.y = 180; // 縦位置調整
+                scene.addChild(label); // シーンにラベルに追加
 
                 //画像生成クラス
                 MakeImage = Class.create(Sprite, {
@@ -276,11 +302,13 @@
                                 this.y = 0;
                             };
 
+                            //抵抗力90％に
                             if (game.input.q) {
                                 immunity = 0.1
                                 console.log(immunity)
                             };
 
+                            //感染力増加
                             if (game.input.w) {
                                 infectivity = infectivity * 1.95
                                 console.log(infectivity)
@@ -334,9 +362,47 @@
                         game.replaceScene(GameoverScene());
                     }
 
-                });
+                    //　ポーズシーンへ
+                    if (game.input.tab) {
+                        game.pushScene(createPasuseScene());
+                    }
 
+                    //　県選択に戻る
+                    if (game.input.r) {
+                        stop_game();
+                    }
+                });
                 // この関数内で作ったシーンを呼び出し元に返します(return)
+                return scene;
+            };
+
+            var createPasuseScene = function () {
+                var scene = new Scene(); // 新しいシーンを作る
+
+                document.getElementById("graph_p").style.display = "none";
+                document.getElementById("graph_n").style.display = "none";
+
+                // 新しいラベル(文字)を作る
+                var label = new Label("ポーズ画面 タッチでゲームシーンに戻る");
+                label.x = 0; // 横位置調整
+                label.y = 20; // 縦位置調整
+                scene.addChild(label); // シーンにラベルに追加
+                scene.backgroundColor = "rgba(0, 0, 255, 0.5)"; // シーンの背景色を設定
+
+                // scene.addEventListener('enterframe', function () {
+                //     if (game.input.tab) {
+                //         game.popScene();
+                //     }
+                // });
+
+                scene.addEventListener(Event.TOUCH_START, function (e) {
+
+                    document.getElementById("graph_p").style.display = "block";
+                    document.getElementById("graph_n").style.display = "block";
+
+                    //現在表示しているシーンを外し、直前のシーンを表示します
+                    game.popScene();
+                });
                 return scene;
             };
 
@@ -346,6 +412,9 @@
 
                 document.getElementById("graph_p").style.display = "none";
                 document.getElementById("graph_n").style.display = "none";
+
+                var label = new Label("画面のタッチで県選択シーンへ");
+                scene.addChild(label); // シーンにラベルに追加
 
                 // 新しいラベル(文字)を作る
                 var label = new Label("ゲームオーバー");
@@ -362,17 +431,24 @@
                 return scene;
             };
 
-            game.replaceScene(createTitleScene());
-
             function stop_game() {
-                //シーンから削除
-                // game.rootScene.removeChild(circle1);
-                // game.rootScene.removeChild(rectangle1);
-
                 game.stop();
                 $("#map").show(); //mapを出す
                 $('#enchant-stage').hide(); //enchant.js部分を隠す
+
+                document.getElementById("graph_p").style.display = "none";
+                document.getElementById("graph_n").style.display = "none";
             }
+
+            game.replaceScene(createTitleScene());
+
+            // createTitleScene.addEventListener('enterframe', function () {
+            //     //　県選択に戻る
+            //     if (game.input.r) {
+            //         stop_game();
+            //     }
+            // });
+
         };
     </script>
 </body>
