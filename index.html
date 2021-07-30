@@ -14,6 +14,24 @@
     <script src="enchant.min.js"></script>
     <script src="Graph.js"></script>
     <title>AS2021</title>
+</head>
+
+<body>
+    <div id="outer1">
+        <p>最初の画面だよ</p>
+        <button id="inner1">押してね</button>
+    </div>
+
+    <div id="map">
+        <p>県を選んでください</p>
+        <div id="jmap"></div>
+    </div>
+
+    <div id="obj" style="position: fixed;">
+        <p id="graph_p" style="height: 60px; background-color: blue;">　</p>
+        <p id="graph_n" style="height: 60px; background-color: chartreuse;">　</p>
+    </div>
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#enchant-stage').hide(); //enchant.js部分を隠す
@@ -89,29 +107,6 @@
             });
         });
     </script>
-    <style>
-        #jmap {
-            max-width: 800px;
-            margin: 0;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="outer1">
-        <p>最初の画面だよ</p>
-        <button id="inner1">押してね</button>
-    </div>
-
-    <div id="map">
-        <p>県を選んでください</p>
-        <div id="jmap"></div>
-    </div>
-
-    <div id="obj" style="position: fixed;">
-        <p id="graph_p" style="height: 60px; background-color: blue;">　</p>
-        <p id="graph_n" style="height: 60px; background-color: chartreuse;">　</p>
-    </div>
 
     <script>
         //ゲームの開始
@@ -120,8 +115,6 @@
         }
 
         enchant(); //おまじない
-
-
 
         //ゲームの幅と高さ
         var width = document.body.scrollWidth;
@@ -144,44 +137,6 @@
             game.keybind('W'.charCodeAt(0), 'w');
             game.keybind('R'.charCodeAt(0), 'r');
             game.keybind(09, 'tab');
-
-            var createTitleScene = function () {
-                var scene = new Scene(); // 新しいシーンを作る
-
-                // 新しいラベルを作る
-                var label = new Label("スタート画像のタッチでゲームシーンへ");
-                scene.addChild(label); // シーンにラベルに追加
-                scene.backgroundColor = "rgba(255, 230, 0, 1)"; // シーンの背景色を設定
-
-                // スタート画像
-                var Start = Class.create(Sprite, {
-                    initialize: function () { //ここに初期化処理
-                        Sprite.call(this, 236, 48);
-                        this.x = 35;
-                        this.y = 105;
-                        this.image = game.assets["start.png"];
-                        scene.addChild(this); //スプライトをシーンに登録
-                    },
-                    onenterframe: function () { //毎フレームごとの処理
-                        this.ontouchend = function () {//タッチされたら
-                            game.replaceScene(createGameScene());
-                        }
-                    }
-                });
-
-                // スタート画像呼び出し
-                var start = new Start();
-
-                scene.addEventListener('enterframe', function () {
-                    //　県選択に戻る
-                    if (game.input.r) {
-                        stop_game();
-                    }
-                });
-
-                // この関数内で作ったシーンを呼び出し元に返します(return)
-                return scene;
-            };
 
             var createGameScene = function () {
                 var scene = new Scene(); // 新しいシーンを作る
@@ -291,8 +246,6 @@
                                     positive_count++;
                                     negative_count--;
                                 }
-
-
                             }
 
                             this.ontouchend = function () {
@@ -343,7 +296,6 @@
                     scene.addChild(image);
                 }
 
-
                 scene.addEventListener('enterframe', function () {
 
                     // 陰性、陽性の数
@@ -389,12 +341,6 @@
                 scene.addChild(label); // シーンにラベルに追加
                 scene.backgroundColor = "rgba(0, 0, 255, 0.5)"; // シーンの背景色を設定
 
-                // scene.addEventListener('enterframe', function () {
-                //     if (game.input.tab) {
-                //         game.popScene();
-                //     }
-                // });
-
                 scene.addEventListener(Event.TOUCH_START, function (e) {
 
                     document.getElementById("graph_p").style.display = "block";
@@ -424,8 +370,6 @@
                 scene.addChild(label); // シーンにラベルに追加
 
                 scene.addEventListener(Event.TOUCH_START, function (e) {
-                    //現在表示しているシーンを外し、直前のシーンを表示します
-                    // game.replaceScene(createTitleScene());
                     stop_game();
                 });
                 return scene;
@@ -440,18 +384,12 @@
                 document.getElementById("graph_n").style.display = "none";
             }
 
-            game.replaceScene(createTitleScene());
-
-            // createTitleScene.addEventListener('enterframe', function () {
-            //     //　県選択に戻る
-            //     if (game.input.r) {
-            //         stop_game();
-            //     }
-            // });
-
+            game.replaceScene(createGameScene());
         };
     </script>
+
 </body>
+
 <style>
     * {
         margin: 0;
@@ -460,6 +398,13 @@
 
     body {
         background-color: rgb(255, 255, 255);
+    }
+</style>
+
+<style>
+    #jmap {
+        max-width: 800px;
+        margin: 0;
     }
 </style>
 
