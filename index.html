@@ -117,7 +117,7 @@
         enchant(); //おまじない
 
         //ゲームの幅と高さ
-        var width = document.body.scrollWidth;
+        var width = document.body.scrollWidth + 15; //応急処置
         var height = window.innerHeight;
         
         var game = new Game(width, height); //Gameオブジェクトを生成
