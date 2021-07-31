@@ -13,6 +13,7 @@
     <script src="./jmap.js"></script>
     <script src="enchant.min.js"></script>
     <script src="Graph.js"></script>
+    <script src="population.js"></script>
     <title>AS2021</title>
 </head>
 
@@ -32,8 +33,13 @@
         <p id="graph_n" style="height: 60px; background-color: rgba(255,0,0,0.3);">　</p>
     </div>
 
-    <script type="text/javascript">
+    <script>
+        var cases;
+        var density;
+        var population;
+
         $(document).ready(function () {
+
             $('#enchant-stage').hide(); //enchant.js部分を隠す
             $("#map").hide(); //mapを隠す
 
@@ -98,8 +104,27 @@
                     { code: 47, name: "沖縄", color: "#eb98ff", hoverColor: "#f5c9ff" },
                 ],
                 onSelect: function (e, data) {
-                    console.log(data);
-                    console.log(data.alphabet); //アルファベットを表示
+                    density = population_data[data.code - 1]["density"] * 0.1;
+                    population = population_data[data.code - 1]["population"];
+
+                    console.log("密度" + density);
+                    console.log("人口" + population);
+                    console.log(population_data[data.code - 1]);
+
+                    // コロナデータを取得
+                    $.ajaxSetup({ async: false }); // 同期通信にする
+                    $.getJSON({
+                        url: "https://covid19-japan-web-api.vercel.app/api/v1/prefectures",
+                    }).done(function (result, status, xhr) {
+                        cases = result[data.code - 1]['cases']; //感染者数
+                        console.log("感染者数" + cases);
+                        console.log(result[data.code - 1]);
+                    }).fail(function (xhr, status, error) {
+                        // 取得できなかった時
+                    });
+                    $.ajaxSetup({ async: true }); // 非同期通信に戻す
+
+                    // console.log(data.alphabet); //アルファベットを表示
                     $("#map").hide(); //mapを隠す
                     $('#enchant-stage').show(); //enchant.js部分を表示
                     start_game();
@@ -116,10 +141,13 @@
 
         enchant(); //おまじない
 
+        var egative_count; //陰性
+        var positive_count; //陽性
+
         //ゲームの幅と高さ
         var width = document.body.scrollWidth + 30; //応急処置
         var height = window.innerHeight;
-        
+
         var game = new Game(width, height); //Gameオブジェクトを生成
 
         game.preload("icon0.png", "start.png"); //画像のロード指定
@@ -128,9 +156,6 @@
         document.getElementById("graph_p").style.display = "none";
         document.getElementById("graph_n").style.display = "none";
 
-        //陽性、陰性の数
-        var negative_count = 300; //陰性　
-        var positive_count = 10; //陽性
 
         game.onload = function () {
             //キーバインド
@@ -142,8 +167,12 @@
             var createGameScene = function () {
                 var scene = new Scene(); // 新しいシーンを作る
 
-                negative_count = 300; //陰性　
-                positive_count = 10; //陽性
+                //陽性、陰性の数
+                positive_count = Math.floor(density * (cases / population)) == 0 ? 1 : Math.floor(density * (cases / population)); //陽性
+                negative_count = Math.floor(density - positive_count); //陰性　
+
+                console.log(positive_count);
+                console.log(negative_count);
 
                 document.getElementById("graph_p").style.display = "block";
                 document.getElementById("graph_n").style.display = "block";
@@ -234,7 +263,7 @@
                             // 衝突相手が自分の番号では無く、自分がnegativeで相手がpositiveなら
                             if (hits[0].myno != this.myno && hits[1].status == "positive" && hits[0].status == "negative") {
                                 //デバッグ用
-                                console.log("衝突");
+                                // console.log("衝突");
                                 //最終的な感染力の計算(％)
                                 var random = Math.floor(Math.random() * (99 - 0 + 1) + 0) * 0.01;//0~99ランダムピック
                                 var infection_per = infectivity * immunity;
