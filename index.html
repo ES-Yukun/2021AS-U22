@@ -28,7 +28,6 @@
     </div>
 
     <div id="obj" style="position: fixed;">
-        <p id="graph_space" style="background-color: rgba(0,0,0,0);">　</p>
         <p id="graph_p" style="height: 60px; background-color: rgba(0,0,255,0.3);">　</p>
         <p id="graph_n" style="height: 60px; background-color: rgba(255,0,0,0.3);">　</p>
     </div>
@@ -119,14 +118,13 @@
 
         //ゲームの幅と高さ
         var width = document.body.scrollWidth;
-        var height = window.innerHeight - 130;
+        var height = window.innerHeight;
+        
         var game = new Game(width, height); //Gameオブジェクトを生成
 
         game.preload("icon0.png", "start.png"); //画像のロード指定
         game.rootScene.backgroundColor = "#f3f3f3"; //背景色
 
-        document.getElementById("graph_space").style.height = window.innerHeight-120+"px";
-        document.getElementById("graph_space").style.display = "none";
         document.getElementById("graph_p").style.display = "none";
         document.getElementById("graph_n").style.display = "none";
 
@@ -149,7 +147,6 @@
 
                 document.getElementById("graph_p").style.display = "block";
                 document.getElementById("graph_n").style.display = "block";
-                document.getElementById("graph_space").style.display = "block";
 
                 /*Graph*///
                 var negative_graph = null;
